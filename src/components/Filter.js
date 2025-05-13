@@ -16,6 +16,8 @@ const Filter = (props) => {
         hightFor: ''
     });
 
+    
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormValues({
@@ -36,7 +38,7 @@ const Filter = (props) => {
             "Год": [parseFloat(formValues.yearFrom), parseFloat(formValues.yearFor)],
             "Высота": [parseFloat(formValues.hightFrom), parseFloat(formValues.hightFor)]
         };
-
+        props.setPage()
         // фильтруем данные по значениям всех полей формы
         let arr = props.fullData;
         for (const key in filterField) {
@@ -55,6 +57,7 @@ const Filter = (props) => {
 
         // передаем родительскому компоненту новое состояние - отфильтрованный массив
         props.filtering(arr);
+       // props.setPage();
     };
 
     const handleReset = () => {

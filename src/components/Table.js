@@ -2,6 +2,7 @@ import TableHead from './TableHead.js';
 import TableBody from './TableBody.js';
 import { useState } from "react";
 import Filter from './Filter.js';
+import { findAllByAltText } from '@testing-library/dom';
 /*
    компонент, выводящий на страницу таблицу с пагинацией
    пропсы:
@@ -21,6 +22,8 @@ const Table = (props,pagination) => {
     const changeActive = (event) => {
         setActivePage(event.target.innerHTML);
     };
+
+    //if(props.pagination == false) setActivePage(1);
 	//количество страниц разбиения таблицы
     const n = Math.ceil(dataTable.length / props.amountRows); 
     
@@ -31,13 +34,17 @@ const Table = (props,pagination) => {
         let countPage = props.amountRows;
         if (props.pagination)
         {
+            
             pages = arr.map((item, index) =>  {
                 if (activePage  == index+1) return <span className={'currentPage'} key={ index } onClick={ changeActive }> { item } </span>
                 else return <span key={ index } onClick={ changeActive }> { item } </span>
             }
             );
         }
-        else countPage = props.data.length;
+        else {
+            //setActivePage("1");
+            countPage = props.data.length;
+        } 
     
    
     
@@ -47,7 +54,7 @@ const Table = (props,pagination) => {
     return( 
       <>
         
-        <Filter filtering={ updateDataTable } data={ dataTable } fullData={ props.data }/>  
+        <Filter     setPage={()=> setActivePage("1")}  filtering={ updateDataTable } data={ dataTable } fullData={ props.data }/>  
         <table>
             <TableHead head={ Object.keys(props.data[0]) } />
             <TableBody body={ dataTable } amountRows={ countPage} numPage={ activePage }/>
